@@ -56,30 +56,28 @@ import com.iisigroup.cap.utils.CapDate;
  *          <li>2016/3/17,sunkist,update for zip and remove old directory
  *          </ul>
  *          log4j.appender.FILE.encoding=UTF-8
- *          log4j.appender.FILE=com.iisigroup.
- *          cap.log.TimeFolderSizeRollingFileAppender
+ *          log4j.appender.FILE=com.iisigroup.cap.log.TimeFolderSizeRollingFileAppender
  *          log4j.appender.FILE.logRootPath=./logs
  *          log4j.appender.FILE.datePattern=yyyy-MM-dd
  *          log4j.appender.FILE.File=CapLog.log
  *          log4j.appender.FILE.MaxFileSize=100MB
  *          log4j.appender.FILE.MaxBackupIndex=100
  *          log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
- *          log4j.appender.FILE.layout.ConversionPattern=%d [%X{uuid}] |
- *          %X{login} | %X{reqURI} | %-28.28c{1} [%-5p] %m%n
+ *          log4j.appender.FILE.layout.ConversionPattern=%d [%X{uuid}] | %X{login} | %X{reqURI} | %-28.28c{1} [%-5p] %m%n
  *          #log4j.appender.FILE.Threshold = INFO
  *
  *
  *          output {workpath}/logs/2013-7-18/CapLog.log
  */
 public class TimeFolderSizeRollingFileAppender extends FileAppender implements ErrorCode {
-    private String logRootPath = ".";
+    private String logRootPath2 = "./logs";
 
-    public void setLogRootPath(String logrootpath) {
-        this.logRootPath = logrootpath;
+    public void setLogRootPath2(String logRootPath2) {
+        this.logRootPath2 = logRootPath2;
     }
 
-    public String getLogRootPath() {
-        return logRootPath;
+    public String getLogRootPath2() {
+        return logRootPath2;
     }
 
     /**
@@ -192,7 +190,7 @@ public class TimeFolderSizeRollingFileAppender extends FileAppender implements E
         String val = file.trim();
         String tmpfileName = val.replace('/', File.separatorChar);
 
-        fileName = getLogRootPath().replaceAll("[/\\\\]$", "") + File.separator + new SimpleDateFormat(datePattern).format(new Date()) + File.separator + tmpfileName;
+        fileName = getLogRootPath2().replaceAll("[/\\\\]$", "") + File.separator + new SimpleDateFormat(datePattern).format(new Date()) + File.separator + tmpfileName;
 
         // create non-exist path
         LogLog.debug("fileName:" + fileName);
@@ -212,8 +210,8 @@ public class TimeFolderSizeRollingFileAppender extends FileAppender implements E
         if (zipEnabled) {
             try {
                 for (int i = 1; i <= zipDayBefore; i++) {
-                    String beforeTheDay = getLogRootPath().replaceAll("[/\\\\]$", "") + File.separator + new SimpleDateFormat(datePattern).format(CapDate.shiftDays(new Date(), -i));
-                    String destUrl = zipPath + File.separator + FilenameUtils.getBaseName(fileName) + "." + new SimpleDateFormat(datePattern).format(CapDate.shiftDays(new Date(), -i)) + ".zip";
+                    String beforeTheDay = getLogRootPath2().replaceAll("[/\\\\]$", "") + File.separator + new SimpleDateFormat(datePattern).format(CapDate.shiftDays(new Date(), -i));
+                    String destUrl = logRootPath2 + File.separator + zipPath + File.separator + FilenameUtils.getBaseName(fileName) + "." + new SimpleDateFormat(datePattern).format(CapDate.shiftDays(new Date(), -i)) + ".zip";
                     LogLog.debug("zipfile::destUrl=" + destUrl);
                     zipFiles(beforeTheDay, destUrl);
 
