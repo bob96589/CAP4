@@ -54,6 +54,7 @@ import com.iisigroup.cap.utils.CapDate;
  *          <ul>
  *          <li>2013/7/18,rodeschen,new
  *          <li>2016/3/17,sunkist,update for zip and remove old directory
+ *          <li>2016/8/10,sunkist,append log file
  *          </ul>
  *          log4j.appender.FILE.encoding=UTF-8
  *          log4j.appender.FILE=com.iisigroup.cap.log.TimeFolderSizeRollingFileAppender
@@ -65,7 +66,6 @@ import com.iisigroup.cap.utils.CapDate;
  *          log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
  *          log4j.appender.FILE.layout.ConversionPattern=%d [%X{uuid}] | %X{login} | %X{reqURI} | %-28.28c{1} [%-5p] %m%n
  *          #log4j.appender.FILE.Threshold = INFO
- *
  *
  *          output {workpath}/logs/2013-7-18/CapLog.log
  */
@@ -234,7 +234,7 @@ public class TimeFolderSizeRollingFileAppender extends FileAppender implements E
                 setImmediateFlush(false);
             }
 
-            Writer fw = createWriter(new FileOutputStream(fileName));
+            Writer fw = createWriter(new FileOutputStream(fileName, append));
             if (bufferedIO) {
                 fw = new BufferedWriter(fw, bufferSize);
             }
